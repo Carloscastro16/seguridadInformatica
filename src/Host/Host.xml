@@ -4,5 +4,11 @@
         <name>Host</name>
     </assembly>
     <members>
+        <member name="M:Host.Controllers.DashboardController.GastoPendienteArea">
+            <summary>
+             Get de todos mis usuarios
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>
