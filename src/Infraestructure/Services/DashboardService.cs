@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Sockets;
 using System.Net;
+using ApplicationCore.DTOs.Log;
 using Microsoft.AspNetCore.Http;
 
 namespace Infraestructure.Services
@@ -37,6 +38,25 @@ namespace Infraestructure.Services
             IPAddress ipAddress = host.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
             var ip = ipAddress?.ToString() ?? "No se encontro la ip";
             return new Response<string>(ip);
+        }
+
+        public async Task<Response<int>> CreateLogs(LogsDto request)
+        {
+            var ipAddress = await GetIp();
+            var dd = ipAddress.Message;
+
+            var u = new LogsDto();
+            u.NombreFuncion = request.NombreFuncion;
+            u.Fecha = request.Fecha;
+            u.Ip = dd.ToString();
+            u.Response = request.Response;
+            u.Datos = request.Datos;
+        
+            var us = _mapper.Map<Domain.Entities.Logs>(u);
+            
+            await _dbContext.Logs.AddAsync(us);
+            await _dbContext.SaveChangesAsync();
+            return new Response<int>(us.Id, "Registro Creado");
         }
     }
 }

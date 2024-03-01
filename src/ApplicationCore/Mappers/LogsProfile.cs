@@ -1,4 +1,5 @@
 using ApplicationCore.Commands.Log;
+using ApplicationCore.DTOs.Log;
 using AutoMapper;
 using Domain.Entities;
 
@@ -8,7 +9,7 @@ public class LogsProfile : Profile
 {
     public LogsProfile()
     {
-        CreateMap<CreateLogCommand, Logs>()
+        CreateMap<LogsDto, Logs>()
             .ForMember(x => x.Id, y => y.Ignore());
     }
 }
