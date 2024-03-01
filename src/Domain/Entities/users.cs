@@ -7,7 +7,10 @@ namespace Domain.Entities;
 public class Users
 {
     [Key]
-    public int pkCliente { get; set; }
-    public string nombre { get; set; }
-    public string ciudad { get; set; }
+    public int PkCliente { get; set; }
+    public string Nombre { get; set; }
+    public string Apellido1 { get; set; }
+    public string Apellido2 { get; set; }
+    public string Ciudad { get; set; }
+    public int fk_categoria { get; set; }
 }

@@ -1,4 +1,6 @@
-﻿using ApplicationCore.Interfaces;
+﻿using ApplicationCore.Commands.Log;
+using ApplicationCore.Commands.Users;
+using ApplicationCore.Interfaces;
 using ApplicationCore.Wrappers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -12,29 +14,40 @@ namespace Host.Controllers
     {
         private readonly IDashboardService _service;
         private readonly IMediator _mediator;
+
         public DashboardController(IDashboardService service, IMediator mediator)
         {
             _service = service;
             _mediator = mediator;
         }
-        /// <summary>
-        ///  Get de todos mis usuarios
-        /// </summary>
-        /// <returns></returns>
+
         [Route("getData")]
         [HttpGet()]
-        [Authorize]
-        /*public async Task<IActionResult> GetUsuarios()
+        public async Task<IActionResult> GetUsuarios()
         {
             var result = await _service.GetData();
             return Ok(result);
-        }*/
-        public async Task<IActionResult> GastoPendienteArea()
-        {
-            var origin = Request.Headers["origin"];
-            return Ok("test");
         }
 
+        [HttpPost("create")]
+        public async Task<ActionResult<Response<int>>> Create(CreateUserCommand request)
+        {
+            var result = await _mediator.Send(request);
+            return Ok(result);
+        }
 
+        [HttpGet("getIp")]
+        public async Task<ActionResult<Response<string>>> GetIp()
+        {
+            var result = _service.GetIp();
+            return Ok(result);
+        }
+        
+        [HttpPost("createLogs")]
+        public async Task<ActionResult<Response<int>>> CreateLogs(CreateLogCommand request)
+        {
+            var result = await _mediator.Send(request);
+            return Ok(result);
+        }
     }
 }
