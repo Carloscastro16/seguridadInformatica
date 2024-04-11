@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Commands.Log;
 using ApplicationCore.Commands.Users;
 using ApplicationCore.DTOs.Log;
+using ApplicationCore.DTOs.User;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Wrappers;
 using MediatR;
@@ -22,13 +23,13 @@ namespace Host.Controllers
             _mediator = mediator;
         }
 
-        [Route("getData")]
+        [Route("getDataPaginated")]
         [HttpGet()]
-        public async Task<IActionResult> GetUsuarios()
+        public async Task<IActionResult> GetDataPaginated()
         {
-            var result = await _service.GetData();
+            var result = await _service.GetDataPaginated();
             return Ok(result);
-        }
+        } 
 
         [HttpPost("create")]
         public async Task<ActionResult<Response<int>>> Create(CreateUserCommand request)
@@ -44,10 +45,31 @@ namespace Host.Controllers
             return Ok(result);
         }
         
+        
+        /*[Route("getPagination")]
+        [HttpGet()]
+        public async Task<ActionResult> GetDataPaginate()
+        {
+            var result = _service.GetDataPaginate();
+            return Ok(result);
+        }*/
+        
         [HttpPost("createLogs")]
         public async Task<ActionResult<Response<int>>> CreateLogs([FromBody] LogsDto request)
         {
             var result = await _service.CreateLogs(request);
+            return Ok(result);
+        }
+        [HttpGet("deleteUser/{pkcliente}")]
+        public async Task<ActionResult<Response<int>>> DeleteUser(int pkcliente)
+        {
+            var result = await _service.DeleteUser(pkcliente);
+            return Ok(result);
+        }
+        [HttpPost("updateUser/{pkcliente}")]
+        public async Task<ActionResult<Response<int>>> UpdateUser(int pkcliente, [FromBody] UpdateUserDto request)
+        {
+            var result = await _service.UpdateUser(pkcliente, request);
             return Ok(result);
         }
     }

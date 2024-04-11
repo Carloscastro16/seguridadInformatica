@@ -12,5 +12,6 @@ public class Users
     public string Apellido1 { get; set; }
     public string Apellido2 { get; set; }
     public string Ciudad { get; set; }
+    public int State { get; set; }
     public int fk_categoria { get; set; }
 }

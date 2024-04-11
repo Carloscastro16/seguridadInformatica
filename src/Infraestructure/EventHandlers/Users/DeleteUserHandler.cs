@@ -9,26 +9,22 @@ using MediatR;
 
 namespace Infraestructure.EventHandlers.Users;
 
-public class CreateUserHandler : IRequestHandler<CreateUserCommand, Response<int>>
+public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, Response<int>>
 {
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
     private readonly IDashboardService _dashboardService;
-    public CreateUserHandler(ApplicationDbContext context, IMapper mapper, IDashboardService dashboardService)
+    public DeleteUserHandler(ApplicationDbContext context, IMapper mapper, IDashboardService dashboardService)
     {
         _context = context;
         _mapper = mapper;
         _dashboardService = dashboardService;
     }
 
-    public async Task<Response<int>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<Response<int>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
-        var u = new CreateUserCommand();
-        u.Nombre = request.Nombre;
-        u.Apellido1 = request.Apellido1;
-        u.Apellido2 = request.Apellido2;
-        u.Ciudad = request.Ciudad;
-        u.fk_categoria = request.fk_categoria;
+        var u = new DeleteUserCommand();
+        u.PkCliente = request.PkCliente;
 
         var jsonData = JsonSerializer.Serialize(u);
         var us = _mapper.Map<Domain.Entities.Users>(u);
@@ -38,8 +34,8 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, Response<int
         
         logsObject.Datos = jsonData;
         logsObject.Fecha = DateTime.Now;
-        logsObject.NombreFuncion = "Crear Usuarios";
-        var responseObject = new Response<int>(us.PkCliente, "Registro Creado");
+        logsObject.NombreFuncion = "Borrar Usuario";
+        var responseObject = new Response<int>(us.PkCliente, "Usuario eliminado");
         logsObject.Response = JsonSerializer.Serialize(responseObject);
         await _dashboardService.CreateLogs(logsObject);
         return responseObject;

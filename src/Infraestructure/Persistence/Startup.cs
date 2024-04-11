@@ -23,7 +23,11 @@ namespace Infraestructure.Persistence
 
             services
                 .Configure<DataBaseSetting>(config.GetSection(nameof(DataBaseSetting)))
-                .AddDbContext<ApplicationDbContext>(m => m.UseSqlServer(rootConnectionString))
+                .AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(rootConnectionString, sqlServerOptionsAction: sqlOptions =>
+                    {
+                        sqlOptions.EnableRetryOnFailure();
+                    }))
                 .AddTransient<IDatabaseInitializer, DatabaseInitializer>()
                 .AddTransient<ApplicationDbInitializer>();
 
