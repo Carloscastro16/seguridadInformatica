@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace ApplicationCore.Mappings
+namespace ApplicationCore.Mappers
 {
     public class GeneralProfile : Profile
     {
