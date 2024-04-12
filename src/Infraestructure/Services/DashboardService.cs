@@ -1,4 +1,4 @@
-﻿using ApplicationCore.DTOs;
+﻿using ApplicationCore;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Wrappers;
 using Dapper;
